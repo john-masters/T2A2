@@ -59,9 +59,13 @@ https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-
 
 ## R6 - An ERD for your app
 
+![ERD](docs/ERD.jpg)
+
 ---
 
 ## R7 - Detail any third party services that your app will use
+
+- To send the orders to the customers, I have facilitated the SendGrid API
 
 ---
 
