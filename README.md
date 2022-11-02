@@ -38,13 +38,22 @@ Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages
 
 ## R4 - Identify and discuss the key functionalities and benefits of an ORM
 
-An ORM works as a layer of abstraction between the
+The key functionalities of an ORM, which in our case is SQLAlchemy, are to have a library of functionalities which allow the developer to interact with the database through the application. Not only does this allow you to develop user-friendly methods for accessing the database, but it also allows you to improve the security of the database with data sanitising practices. Other benefits are that it makes you write code with MVC architecture, which keeps the code clean and overall more DRY.
 
 https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-how-should-i-use-one
 
 ---
 
 ## R5 - Document all endpoints for your API
+
+- Login for customers and restaurant owner
+- Get menu
+- Post orders
+- Get orders for customers (Can view own orders)
+- Get orders for restaurant owner (Can view all past and present orders)
+- Update menu for restaurant owner
+- Delete orders for restaurant owner
+- Get amount generated for past orders
 
 ---
 
