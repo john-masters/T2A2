@@ -32,7 +32,7 @@ Another disadvantage is that PostgreSQL is less supported than MySQL. None of th
 
 PostgreSQL: A closer look at the object-relational database management system (2022) IONOS Digital Guide. IONOS. Available at: https://www.ionos.com/digitalguide/server/know-how/postgresql/ (Accessed: October 23, 2022).
 
-Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages, Guru99. Available at: https://www.guru99.com/introduction-postgresql.html (Accessed: October 23, 2022). 
+Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages, Guru99. Available at: https://www.guru99.com/introduction-postgresql.html (Accessed: October 23, 2022).
 
 ---
 
@@ -40,20 +40,59 @@ Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages
 
 The key functionalities of an ORM, which in our case is SQLAlchemy, are to have a library of functionalities which allow the developer to interact with the database through the application. Not only does this allow you to develop user-friendly methods for accessing the database, but it also allows you to improve the security of the database with data sanitising practices. Other benefits are that it makes you write code with MVC architecture, which keeps the code clean and overall more DRY.
 
-https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-how-should-i-use-one
+[source](https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-how-should-i-use-one)
 
 ---
 
 ## R5 - Document all endpoints for your API
 
-- Login for customers and restaurant owner
-- Get menu
-- Post orders
-- Get orders for customers (Can view own orders)
-- Get orders for restaurant owner (Can view all past and present orders)
-- Update menu for restaurant owner
-- Delete orders for restaurant owner
-- Get amount generated for past orders
+* **Login for customers and restaurant owner**
+  * HTTP request verb: POST
+  * Required data where applicable: in JSON format, the email address and password are required
+  * Expected response data: JWT Token in JSON format
+  * Authentication methods where applicable: username and hashed password is checked against db
+
+* **Get menu**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Post orders**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Get orders for customers (Can view own orders)**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Get orders for restaurant owner (Can view all past and present orders)**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Update menu for restaurant owner**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Delete orders for restaurant owner**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
+
+* **Get amount generated for past orders**
+  * HTTP request verb:
+  * Required data where applicable:
+  * Expected response data:
+  * Authentication methods where applicable:
 
 ---
 
@@ -65,7 +104,7 @@ https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-
 
 ## R7 - Detail any third party services that your app will use
 
-- To send the orders to the customers, I have facilitated the SendGrid API
+To send the orders to the customers, I have facilitated the SendGrid API
 
 ---
 
@@ -78,5 +117,7 @@ https://stackoverflow.com/questions/1279613/what-is-an-orm-how-does-it-work-and-
 ---
 
 ## R10 - Describe the way tasks are allocated and tracked in your project
+
+[Trello board](https://trello.com/invite/b/LsTz9le2/ATTIcb57bcfce81384249b7ec8371ced357b990C3768/t2a2-kanban)
 
 ---
