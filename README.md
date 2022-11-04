@@ -30,9 +30,9 @@ Fortunately, there are few disadvantages to PostgreSQL although there a few. One
 
 Another disadvantage is that PostgreSQL is less supported than MySQL. None of these disadvantages are detrimental to using PostgreSQL, and it is still a great choice as a DBMS for a huge variety of needs.
 
-PostgreSQL: A closer look at the object-relational database management system (2022) IONOS Digital Guide. IONOS. Available at: https://www.ionos.com/digitalguide/server/know-how/postgresql/ (Accessed: October 23, 2022).
+PostgreSQL: A closer look at the object-relational database management system (2022) IONOS Digital Guide. IONOS. Available at: <https://www.ionos.com/digitalguide/server/know-how/postgresql/> (Accessed: October 23, 2022).
 
-Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages, Guru99. Available at: https://www.guru99.com/introduction-postgresql.html (Accessed: October 23, 2022).
+Peterson, R. (2022) What is PostgreSQL? Introduction, Advantages & Disadvantages, Guru99. Available at: <https://www.guru99.com/introduction-postgresql.html> (Accessed: October 23, 2022).
 
 ---
 
@@ -60,7 +60,7 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 * **Post orders**
   * HTTP request verb: POST
-  * Required data where applicable: All of the food ids for each item`
+  * Required data where applicable: All of the food ids for each item
   * Expected response data: Order confirmation and order id
   * Authentication methods where applicable: JWT Token
 
