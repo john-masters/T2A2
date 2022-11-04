@@ -53,43 +53,43 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
   * Authentication methods where applicable: username and hashed password is checked against db
 
 * **Get menu**
-  * HTTP request verb:
+  * HTTP request verb: GET
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Post orders**
-  * HTTP request verb:
+  * HTTP request verb: POST
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Get orders for customers (Can view own orders)**
-  * HTTP request verb:
+  * HTTP request verb: GET
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Get orders for restaurant owner (Can view all past and present orders)**
-  * HTTP request verb:
+  * HTTP request verb: GET
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Update menu for restaurant owner**
-  * HTTP request verb:
+  * HTTP request verb: GET
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Delete orders for restaurant owner**
-  * HTTP request verb:
+  * HTTP request verb: DELETE
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
 
 * **Get amount generated for past orders**
-  * HTTP request verb:
+  * HTTP request verb: GET
   * Required data where applicable:
   * Expected response data:
   * Authentication methods where applicable:
