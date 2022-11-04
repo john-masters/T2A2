@@ -48,21 +48,21 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 * **Login for customers and restaurant owner**
   * HTTP request verb: POST
-  * Required data where applicable: in JSON format, the email address and password are required
+  * Required data where applicable: The email address and password in JSON format
   * Expected response data: JWT Token in JSON format
   * Authentication methods where applicable: username and hashed password is checked against db
 
 * **Get menu**
   * HTTP request verb: GET
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: n/a
+  * Expected response data: List of all foods on menu
+  * Authentication methods where applicable: n/a
 
 * **Post orders**
   * HTTP request verb: POST
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: All of the food ids for each item`
+  * Expected response data: Order confirmation and order id
+  * Authentication methods where applicable: JWT Token
 
 * **Get orders for customers (Can view own orders)**
   * HTTP request verb: GET
