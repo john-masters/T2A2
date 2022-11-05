@@ -66,33 +66,39 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 * **Get orders for customers (Can view own orders)**
   * HTTP request verb: GET
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: n/a
+  * Expected response data: Order ID, order items/quantity and total price
+  * Authentication methods where applicable: JWT Token
 
-* **Get orders for restaurant owner (Can view all past and present orders)**
+* **Get orders for restaurant owner**
   * HTTP request verb: GET
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: n/a
+  * Expected response data: Order ID, order items/quantity and total price for all orders not marked as comleted
+  * Authentication methods where applicable: Admin JWT Token
 
 * **Update menu for restaurant owner**
-  * HTTP request verb: GET
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * HTTP request verb: POST (or PUT)
+  * Required data where applicable: All of the food id's on the menu
+  * Expected response data: Confirmation message and the new menu in JSON format
+  * Authentication methods where applicable: Admin JWT Token
+
+* **Update orders for restaurant owner**
+  * HTTP request verb: PUT
+  * Required data where applicable: Associated order ID and desired order status
+  * Expected response data: Confirmation message and the order in JSON format showing the status as whatever it's updated to
+  * Authentication methods where applicable: Admin JWT Token
 
 * **Delete orders for restaurant owner**
   * HTTP request verb: DELETE
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: Associated order ID
+  * Expected response data: Confirmation message the order is deleted
+  * Authentication methods where applicable: Admin JWT Token
 
 * **Get amount generated for past orders**
   * HTTP request verb: GET
-  * Required data where applicable:
-  * Expected response data:
-  * Authentication methods where applicable:
+  * Required data where applicable: n/a
+  * Expected response data: List of all orders and their total price
+  * Authentication methods where applicable: Admin JWT Token
 
 ---
 
@@ -104,15 +110,17 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 ## R7 - Detail any third party services that your app will use
 
-To send the orders to the customers, I have facilitated the SendGrid API
+When customers make orders, they will receive an order confirmation email via the SendGrid API. The restaurant owner will also receive an email when a new order is made.
 
 ---
 
 ## R8 - Describe your projects models in terms of the relationships they have with each other
+<!-- Discuss relationships in regards to SQLAlchemy models -->
 
 ---
 
 ## R9 - Discuss the database relations to be implemented in your application
+<!-- Discuss relationships at the db level -->
 
 ---
 
