@@ -6,35 +6,32 @@ from models.order_item import OrderItem
 from models.order import Order
 from models.user import User
 
-db_commands = Blueprint('db', __name__)
+db_bp = Blueprint('db', __name__)
 
-@db_commands.cli.command('create')
+@db_bp.cli.command('create')
 def create_db():
     db.create_all()
     print('Database created!')
 
-@db_commands.cli.command('drop')
+@db_bp.cli.command('drop')
 def drop_db():
     db.drop_all()
     print('Database dropped!')
 
-@db_commands.cli.command('seed')
+@db_bp.cli.command('seed')
 def seed_db():
     # seed the database
     users = [
         User(
-            name = 'admin',
+            name = 'Admin User',
             email = '12849@coderacademy.edu.au',
-            phone = '0413515596',
             password = bcrypt.generate_password_hash('password123').decode('utf-8'),
             is_admin = True
         ),
         User(
-            name = 'guest',
+            name = 'Bob Smith',
             email = 'spam@eggs.com',
-            phone = '0400000000',
-            password = bcrypt.generate_password_hash('password').decode('utf-8'),
-            is_admin = False
+            password = bcrypt.generate_password_hash('password').decode('utf-8')
         )
     ]
     db.session.add_all(users)

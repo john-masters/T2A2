@@ -13,12 +13,11 @@ def auth_register():
         user = User(
            name = request.json['name'],
            email = request.json['email'],
-           phone = request.json['phone'],
            password = bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
         )
         db.session.add(user)
         db.session.commit()
-        return UserSchema(exclude=['password']).dump(user), 201
+        return UserSchema(exclude=['password', 'is_admin']).dump(user), 201
     except IntegrityError:
         return {'error': 'Email address already exists'}, 409
 
