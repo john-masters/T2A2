@@ -2,10 +2,8 @@ from flask import Blueprint
 from init import db, bcrypt
 from datetime import date
 from models.food import Food
-from models.menu import Menu
 from models.order_item import OrderItem
 from models.order import Order
-from models.sales import Sales
 from models.user import User
 
 db_commands = Blueprint('db', __name__)
@@ -63,48 +61,29 @@ def seed_db():
     ]
     db.session.add_all(food)
     db.session.commit()
-    menu = [
-        Menu(
-            food_id = 1
-        ),
-        Menu(
-            food_id = 2
-        ),
-        Menu(
-            food_id = 3
+    orders = [
+        Order(
+            user_id = 1,
+            date = date.today(),
+            status = 'pending',
+            total_price = 10.00
         )
     ]
-    db.session.add_all(menu)
+    db.session.add_all(orders)
     db.session.commit()
     order_items = [
         OrderItem(
             food_id = 1,
+            order_id = 1,
             quantity = 2
         ),
         OrderItem(
             food_id = 2,
+            order_id = 1,
             quantity = 1
         )
     ]
     db.session.add_all(order_items)
-    db.session.commit()
-    orders = [
-        Order(
-            order_item_id = 1,
-            user_id = 2,
-            date = date.today(),
-            status = 'Completed',
-            total_price = 20.00
-        ),
-        Order(
-            order_item_id = 2,
-            user_id = 2,
-            date = date.today(),
-            status = 'Completed',
-            total_price = 12.00
-        )
-    ]
-    db.session.add_all(orders)
     db.session.commit()
     print('Database seeded!')
     
