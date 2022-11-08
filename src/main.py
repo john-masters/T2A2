@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from init import db, ma, bcrypt, jwt
+from controllers.cli_controller import db_commands
 
 
 def create_app():
@@ -18,5 +19,7 @@ def create_app():
     @app.route('/')
     def index():
         return 'Hello World'
+
+    app.register_blueprint(db_commands)
 
     return app

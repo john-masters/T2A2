@@ -2,7 +2,7 @@ from init import db, ma
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
     total_sales = db.Column(db.Float)
 
 class SalesSchema(ma.Schema):

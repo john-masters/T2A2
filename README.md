@@ -129,3 +129,23 @@ When customers make orders, they will receive an order confirmation email via th
 [Trello board](https://trello.com/invite/b/LsTz9le2/ATTIcb57bcfce81384249b7ec8371ced357b990C3768/t2a2-kanban)
 
 ---
+
+## Instructions to set up database
+
+1. Create database
+
+```sql
+CREATE DATABASE pizzeria;
+```
+
+2. Create user
+
+```sql
+CREATE USER pizza WITH PASSWORD 'cheese';
+```
+
+3. Grant privileges
+
+```sql
+GRANT ALL PRIVILEGES ON DATABASE pizzeria TO pizza;
+```
