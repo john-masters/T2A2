@@ -7,7 +7,7 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@auth_bp.route('/register/', methods=['POST'])
+@auth_bp.route('/signup/', methods=['POST'])
 def auth_register():
     try:
         user = User(
@@ -21,7 +21,7 @@ def auth_register():
     except IntegrityError:
         return {'error': 'Email address already exists'}, 409
 
-@auth_bp.route('/login/', methods=['POST'])
+@auth_bp.route('/signin/', methods=['POST'])
 def auth_login():
     stmt = db.select(User).filter_by(email=request.json['email'])
     user = db.session.scalar(stmt)

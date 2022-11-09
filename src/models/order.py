@@ -12,10 +12,12 @@ class Order(db.Model):
     status = db.Column(db.String, default = VALID_STATUSES[0])
     total_price = db.Column(db.Float)
     user = db.relationship('User', back_populates='orders')
+    order_items = db.relationship('OrderItem', back_populates='order')
 
 class OrderSchema(ma.Schema):
     status = fields.String(load_default=VALID_STATUSES[0], validate=OneOf(VALID_STATUSES))
+    order_items = fields.List(fields.Nested('OrderItemSchema', only=('quantity', 'food')))
     class Meta:
-        fields = ('id', 'user_id', 'date', 'status', 'total_price')
+        fields = ('id', 'user_id', 'date', 'status', 'total_price', 'order_items')
         ordered = True
         

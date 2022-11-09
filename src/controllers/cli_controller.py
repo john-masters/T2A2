@@ -51,7 +51,7 @@ def seed_db():
         ),
         Food(
             name = 'Gorgonzola',
-            ingredients = 'Mozarella, gorgonzola',
+            ingredients = 'Mozzarella, gorgonzola',
             price = 10.00,
             is_veg = True
         )
@@ -62,7 +62,6 @@ def seed_db():
         Order(
             user_id = 1,
             date = date.today(),
-            status = 'pending',
             total_price = 10.00
         )
     ]

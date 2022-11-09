@@ -1,27 +1,29 @@
 import os
-from flask import Blueprint
+from datetime import date
+from flask import Blueprint, request
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.order import Order, OrderSchema
 
 order_bp = Blueprint('order', __name__, url_prefix='/orders')
 
-message = Mail(
-    from_email='12849@coderacademy.edu.au',
-    to_emails='mastersjohnr@gmail.com',
-    subject='Sending with Twilio SendGrid is Fun',
-    html_content='<strong>and easy to do anywhere, even with Python</strong>'
-    )
+# message = Mail(
+#     from_email='12849@coderacademy.edu.au',
+#     to_emails='mastersjohnr@gmail.com',
+#     subject='Sending with Twilio SendGrid is Fun',
+#     html_content='<strong>and easy to do anywhere, even with Python</strong>'
+#     )
 
-try:
-    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-    response = sg.send(message)
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
-except Exception as err:
-    print(err)
+# try:
+#     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+#     response = sg.send(message)
+#     print(response.status_code)
+#     print(response.body)
+#     print(response.headers)
+# except Exception as err:
+#     print(err)
 
 @order_bp.route('/', methods=['GET'])
 def get_all_orders():
@@ -37,4 +39,15 @@ def get_order(id):
         return OrderSchema().dump(order)
     else:
         return {'error': f'Order not found with id {id}'}, 404
-        
+
+@order_bp.route('/', methods=['POST'])
+@jwt_required()
+def create_order():
+    order = Order(
+        user_id = get_jwt_identity(),
+        date = date.today(),
+        price = 0
+    )
+    db.session.add(order)
+    db.session.commit()
+    return OrderSchema().dump(order), 201

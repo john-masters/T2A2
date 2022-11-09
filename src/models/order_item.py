@@ -7,11 +7,12 @@ class OrderItem(db.Model):
     food_id = db.Column(db.Integer, db.ForeignKey('food.id'), nullable=False)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     quantity = db.Column(db.Integer, default=1)
+    order = db.relationship('Order', back_populates='order_items')
     food = db.relationship('Food', back_populates='order_items')
 
 class OrderItemSchema(ma.Schema):
     food = fields.Nested('FoodSchema', only=('name', 'price'))
     class Meta:
-        fields = ('id', 'food_id', 'order_id', 'quantity')
+        fields = ('id', 'food_id', 'order_id', 'quantity', 'order', 'food')
         ordered = True
         
