@@ -24,13 +24,13 @@ def seed_db():
     users = [
         User(
             name = 'Admin User',
-            email = '12849@coderacademy.edu.au',
-            password = bcrypt.generate_password_hash('password123').decode('utf-8'),
+            email = 'admin@email.com',
+            password = bcrypt.generate_password_hash('password').decode('utf-8'),
             is_admin = True
         ),
         User(
             name = 'Bob Smith',
-            email = 'spam@eggs.com',
+            email = 'user@email.com',
             password = bcrypt.generate_password_hash('password').decode('utf-8')
         )
     ]
@@ -61,8 +61,7 @@ def seed_db():
     orders = [
         Order(
             user_id = 1,
-            date = date.today(),
-            total_price = 10.00
+            date = date.today()
         )
     ]
     db.session.add_all(orders)

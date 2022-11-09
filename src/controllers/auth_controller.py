@@ -1,5 +1,5 @@
 from datetime import timedelta
-from flask import Blueprint, request
+from flask import Blueprint, request, abort
 from init import db, bcrypt
 from models.user import User, UserSchema
 from sqlalchemy.exc import IntegrityError
@@ -30,3 +30,10 @@ def auth_login():
         return {'email': user.email, 'token': token, 'is_admin': user.is_admin}
     else:
         return {'error': 'Invalid credentials'}, 401
+
+def check_admin():
+    user_id = get_jwt_identity()
+    stmt = db.select(User).filter_by(id=user_id)
+    user = db.session.scalar(stmt)
+    if not user.is_admin:
+        abort(401)

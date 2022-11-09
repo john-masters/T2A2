@@ -6,6 +6,7 @@ from sendgrid.helpers.mail import Mail
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.order import Order, OrderSchema
+from controllers.auth_controller import check_admin
 
 order_bp = Blueprint('order', __name__, url_prefix='/orders')
 
@@ -25,8 +26,12 @@ order_bp = Blueprint('order', __name__, url_prefix='/orders')
 # except Exception as err:
 #     print(err)
 
+
+# Get all orders (for admin)
 @order_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_all_orders():
+    check_admin()
     stmt = db.select(Order).order_by(Order.id)
     orders = db.session.scalars(stmt)
     return OrderSchema(many=True).dump(orders)

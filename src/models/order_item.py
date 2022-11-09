@@ -1,5 +1,6 @@
 from init import db, ma
 from marshmallow import fields
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class OrderItem(db.Model):
     __tablename__ = 'order_items'
@@ -10,9 +11,13 @@ class OrderItem(db.Model):
     order = db.relationship('Order', back_populates='order_items')
     food = db.relationship('Food', back_populates='order_items')
 
+    @hybrid_property
+    def subtotal(self):
+        return self.quantity * self.food.price
+
 class OrderItemSchema(ma.Schema):
     food = fields.Nested('FoodSchema', only=('name', 'price'))
     class Meta:
-        fields = ('id', 'food_id', 'order_id', 'quantity', 'order', 'food')
+        fields = ('id', 'food_id', 'order_id', 'quantity', 'order', 'food', 'subtotal')
         ordered = True
         
