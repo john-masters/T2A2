@@ -40,13 +40,13 @@ def seed_db():
         Food(
             name = 'Margherita',
             ingredients = 'Tomato, basil, mozzarella',
-            price = 10.00,
+            price = 12.00,
             is_veg = True
         ),
         Food(
             name = 'Pepperoni',
             ingredients = 'Tomato, basil, mozzarella, pepperoni',
-            price = 12.00,
+            price = 15.00,
             is_veg = False
         ),
         Food(
@@ -62,20 +62,34 @@ def seed_db():
         Order(
             user_id = 1,
             date = date.today()
+        ),
+        Order(
+            user_id = 2,
+            date = date.today()
         )
     ]
     db.session.add_all(orders)
     db.session.commit()
     order_items = [
         OrderItem(
-            food_id = 1,
             order_id = 1,
+            food_id = 1,
             quantity = 2
         ),
         OrderItem(
-            food_id = 2,
             order_id = 1,
+            food_id = 2,
             quantity = 1
+        ),
+        OrderItem(
+            order_id = 2,
+            food_id = 3,
+            quantity = 1
+        ),
+        OrderItem(
+            order_id = 2,
+            food_id = 1,
+            quantity = 2
         )
     ]
     db.session.add_all(order_items)

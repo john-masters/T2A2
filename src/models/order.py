@@ -15,6 +15,7 @@ class Order(db.Model):
     user = db.relationship('User', back_populates='orders')
     order_items = db.relationship('OrderItem', back_populates='order')
     
+    # Calculates the total price of the order by multiplying the quantity of each order item by each item's price
     @hybrid_property
     def total_price(self):
         total = 0

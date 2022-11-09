@@ -6,6 +6,7 @@ from sendgrid.helpers.mail import Mail
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.order import Order, OrderSchema
+from models.user import User
 from controllers.auth_controller import check_admin
 
 order_bp = Blueprint('order', __name__, url_prefix='/orders')
@@ -16,7 +17,6 @@ order_bp = Blueprint('order', __name__, url_prefix='/orders')
 #     subject='Sending with Twilio SendGrid is Fun',
 #     html_content='<strong>and easy to do anywhere, even with Python</strong>'
 #     )
-
 # try:
 #     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
 #     response = sg.send(message)
@@ -26,15 +26,23 @@ order_bp = Blueprint('order', __name__, url_prefix='/orders')
 # except Exception as err:
 #     print(err)
 
-
-# Get all orders (for admin)
+# Get all orders
 @order_bp.route('/', methods=['GET'])
 @jwt_required()
-def get_all_orders():
-    check_admin()
-    stmt = db.select(Order).order_by(Order.id)
-    orders = db.session.scalars(stmt)
-    return OrderSchema(many=True).dump(orders)
+def get_orders():
+    user_id = get_jwt_identity()
+    stmt = db.select(User).filter_by(id=user_id)
+    user = db.session.scalar(stmt)
+    # If the user isn't an admin, only return their orders
+    if not user.is_admin:
+        stmt = db.select(Order).filter_by(user_id=user_id).order_by(Order.id)
+        orders = db.session.scalars(stmt)
+        return OrderSchema(many=True).dump(orders)
+    # If the user is an admin, return all orders
+    else:
+        stmt = db.select(Order).order_by(Order.id)
+        orders = db.session.scalars(stmt)
+        return OrderSchema(many=True).dump(orders)
 
 @order_bp.route('/<int:id>/', methods=['GET'])
 def get_order(id):
