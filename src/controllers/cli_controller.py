@@ -32,6 +32,11 @@ def seed_db():
             name = 'Bob Smith',
             email = 'user@email.com',
             password = bcrypt.generate_password_hash('password').decode('utf-8')
+        ),
+        User(
+            name = 'John Smith',
+            email = 'user1@email.com',
+            password = bcrypt.generate_password_hash('password').decode('utf-8')
         )
     ]
     db.session.add_all(users)

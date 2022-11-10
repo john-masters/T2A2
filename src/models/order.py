@@ -4,7 +4,7 @@ from marshmallow.validate import OneOf
 from marshmallow.exceptions import ValidationError
 from sqlalchemy.ext.hybrid import hybrid_property
 
-VALID_STATUSES = ('received', 'in-progress', 'ready', 'picked-up', 'cancelled', 'completed', 'refunded')
+VALID_STATUSES = ('Pending', 'In progress', 'Ready for pick-up', 'Completed', 'Refunded')
 
 class Order(db.Model):
     __tablename__ = 'orders'
@@ -26,7 +26,7 @@ class Order(db.Model):
 
 class OrderSchema(ma.Schema):
     status = fields.String(load_default=VALID_STATUSES[0], validate=OneOf(VALID_STATUSES))
-    order_items = fields.List(fields.Nested('OrderItemSchema', only=('quantity', 'subtotal', 'food')))
+    order_items = fields.List(fields.Nested('OrderItemSchema', only=('id', 'quantity', 'subtotal', 'food')))
 
     @validates('status')
     def validate_status(self, value):

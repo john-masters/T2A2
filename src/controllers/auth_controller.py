@@ -1,8 +1,9 @@
 from datetime import timedelta
 from flask import Blueprint, request, abort
+from sqlalchemy.exc import IntegrityError
 from init import db, bcrypt
 from models.user import User, UserSchema
-from sqlalchemy.exc import IntegrityError
+from models.order import Order
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -36,4 +37,13 @@ def check_admin():
     stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
     if not user.is_admin:
+        abort(401)
+
+# Check if the user_id for the order matches the user_id of the user making the request
+def check_owner():
+    user_id = get_jwt_identity()
+    order_id = request.view_args['id']
+    stmt = db.select(Order).filter_by(id=order_id)
+    order = db.session.scalar(stmt)
+    if order.user_id != user_id:
         abort(401)
