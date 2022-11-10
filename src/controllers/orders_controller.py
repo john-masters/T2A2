@@ -45,14 +45,15 @@ def get_orders():
         orders = db.session.scalars(stmt)
         return OrderSchema(many=True).dump(orders)
 
-@order_bp.route('/<int:id>/', methods=['GET'])
-def get_order(id):
-    stmt = db.select(Order).filter_by(id=id)
-    order = db.session.scalar(stmt)
-    if order:
-        return OrderSchema().dump(order)
-    else:
-        return {'error': f'Order not found with id {id}'}, 404
+
+# @order_bp.route('/<int:id>/', methods=['GET'])
+# def get_order(id):
+#     stmt = db.select(Order).filter_by(id=id)
+#     order = db.session.scalar(stmt)
+#     if order:
+#         return OrderSchema().dump(order)
+#     else:
+#         return {'error': f'Order not found with id {id}'}, 404
 
 @order_bp.route('/', methods=['POST'])
 @jwt_required()
@@ -85,3 +86,18 @@ def add_to_order():
     db.session.add(order_items)
     db.session.commit()
     return OrderSchema().dump(order), 201
+
+@order_bp.route('/<int:id>/', methods=['PATCH'])
+@jwt_required()
+def update_order_status(id):
+    check_admin()
+    # Loads the Schema from to ensure the data is valid
+    data = OrderSchema().load(request.json)
+    stmt = db.select(Order).filter_by(id=id)
+    order = db.session.scalar(stmt)
+    if order:
+        order.status = request.json['status']
+        db.session.commit()
+        return OrderSchema().dump(order)
+    else:
+        return {'error': f'Order not found with id {id}'}, 404
