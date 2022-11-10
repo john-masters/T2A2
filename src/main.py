@@ -4,6 +4,7 @@ from init import db, ma, bcrypt, jwt
 from controllers.cli_controller import db_bp
 from controllers.auth_controller import auth_bp
 from controllers.orders_controller import order_bp
+from controllers.food_controller import food_bp
 from marshmallow.exceptions import ValidationError
 
 
@@ -13,6 +14,10 @@ def create_app():
     @app.errorhandler(401)
     def unauthorized(err):
         return {'error': str(err)}, 401
+
+    @app.errorhandler(405)
+    def method_not_allowed(err):
+        return {'error': str(err)}, 405
 
     @app.errorhandler(ValidationError)
     def validation_error(err):
@@ -34,5 +39,6 @@ def create_app():
     app.register_blueprint(db_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(order_bp)
+    app.register_blueprint(food_bp)
 
     return app

@@ -5,7 +5,7 @@ from init import db, bcrypt
 from models.user import User, UserSchema
 from models.order import Order
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-
+    
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/signup/', methods=['POST'])
@@ -45,5 +45,5 @@ def check_owner():
     order_id = request.view_args['id']
     stmt = db.select(Order).filter_by(id=order_id)
     order = db.session.scalar(stmt)
-    if order.user_id != user_id:
+    if order.user_id != int(user_id):
         abort(401)
