@@ -32,6 +32,17 @@ def auth_login():
     else:
         return {'error': 'Invalid credentials'}, 401
 
+# Get list of all users (admin only)
+@auth_bp.route('/', methods=['GET'])
+@jwt_required()
+def get_users():
+    check_admin()
+    stmt = db.select(User)
+    users = db.session.scalars(stmt)
+    return UserSchema(many=True).dump(users)
+
+# Delete users (admin only)
+
 def check_admin():
     user_id = get_jwt_identity()
     stmt = db.select(User).filter_by(id=user_id)

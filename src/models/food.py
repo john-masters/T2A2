@@ -7,11 +7,12 @@ class Food(db.Model):
     ingredients = db.Column(db.String(200))
     price = db.Column(db.Float)
     is_veg = db.Column(db.Boolean)
+    on_menu = db.Column(db.Boolean, default=True)
     order_items = db.relationship('OrderItem', back_populates='food')
 
 class FoodSchema(ma.Schema):
     order_items = fields.Nested('OrderItemSchema')
     class Meta:
-        fields = ('id', 'name', 'ingredients', 'price', 'is_veg')
+        fields = ('id', 'name', 'ingredients', 'price', 'is_veg', 'on_menu')
         ordered = True
         

@@ -6,15 +6,15 @@ from flask_jwt_extended import jwt_required
 
 food_bp = Blueprint('food', __name__, url_prefix='/food')
 
-# Get the list of all the food items (menu)
+# Get the list of all the food items where on_menu = True
 @food_bp.route('/', methods=['GET'])
 def menu():
-    stmt = db.select(Food)
+    stmt = db.select(Food).filter_by(on_menu=True)
     foods = db.session.scalars(stmt)
     return FoodSchema(many=True).dump(foods)
 
 # Update food items
-@food_bp.route('/<int:food_id>/', methods=['PUT'])
+@food_bp.route('/<int:food_id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_food(food_id):
     check_admin()
@@ -24,24 +24,30 @@ def update_food(food_id):
         food.name = request.json.get('name') or food.name
         food.price = request.json.get('price') or food.price
         food.ingredients = request.json.get('ingredients') or food.ingredients
-        food.is_veg = request.json.get('is_veg') or food.is_veg
+        if request.json.get('is_veg') is not None:
+            food.is_veg = request.json.get('is_veg')
+        else:
+            food.is_veg = food.is_veg
+        if request.json.get('on_menu') is not None:
+            food.on_menu = request.json.get('on_menu')
+        else:
+            food.on_menu = food.on_menu
         db.session.commit()
         return FoodSchema().dump(food)
     else:
         return {'error': 'Food item not found'}, 404
 
-# Delete food items
-# @food_bp.route('/<int:food_id>/', methods=['DELETE'])
-# @jwt_required()
-# def delete_food(food_id):
-#     check_admin()
-#     stmt = db.select(Food).filter_by(id=food_id)
-#     food = db.session.scalar(stmt)
-#     if food:
-#         db.session.delete(food)
-#         db.session.commit()
-#         return {'message': f'Food item {food.name} deleted'}
-#     else:
-#         return {'error': 'Food item not found'}, 404
-
 # Add food items
+@food_bp.route('/', methods=['POST'])
+@jwt_required()
+def add_food():
+    check_admin()
+    food = Food(
+        name = request.json['name'],
+        price = request.json['price'],
+        ingredients = request.json['ingredients'],
+        is_veg = request.json['is_veg']
+    )
+    db.session.add(food)
+    db.session.commit()
+    return FoodSchema().dump(food), 201
