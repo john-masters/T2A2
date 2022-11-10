@@ -40,7 +40,7 @@ def seed_db():
         Food(
             name = 'Margherita',
             ingredients = 'Tomato, basil, mozzarella',
-            price = 12.00,
+            price = 10.00,
             is_veg = True
         ),
         Food(
@@ -52,7 +52,7 @@ def seed_db():
         Food(
             name = 'Gorgonzola',
             ingredients = 'Mozzarella, gorgonzola',
-            price = 10.00,
+            price = 12.00,
             is_veg = True
         )
     ]

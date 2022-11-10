@@ -6,6 +6,7 @@ from sendgrid.helpers.mail import Mail
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.order import Order, OrderSchema
+from models.order_item import OrderItem, OrderItemSchema
 from models.user import User
 from controllers.auth_controller import check_admin
 
@@ -58,9 +59,29 @@ def get_order(id):
 def create_order():
     order = Order(
         user_id = get_jwt_identity(),
-        date = date.today(),
-        price = 0
+        date = date.today()
     )
     db.session.add(order)
+    db.session.commit()
+    order_items = OrderItem(
+        order_id = order.id,
+        food_id = request.json['food_id'],
+        quantity = request.json['quantity']
+    )
+    db.session.add(order_items)
+    db.session.commit()
+    return OrderSchema().dump(order), 201
+
+@order_bp.route('/', methods=['PUT', 'PATCH'])
+@jwt_required()
+def add_to_order():
+    stmt = db.select(Order).filter_by(id=request.json['order_id'])
+    order = db.session.scalar(stmt)
+    order_items = OrderItem(
+        order_id = request.json['order_id'],
+        food_id = request.json['food_id'],
+        quantity = request.json['quantity']
+    )
+    db.session.add(order_items)
     db.session.commit()
     return OrderSchema().dump(order), 201
