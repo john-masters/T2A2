@@ -101,3 +101,16 @@ def update_order_status(id):
         return OrderSchema().dump(order)
     else:
         return {'error': f'Order not found with id {id}'}, 404
+
+@order_bp.route('/<int:id>/', methods=['DELETE'])
+@jwt_required()
+def delete_order(id):
+    check_admin()
+    stmt = db.select(Order).filter_by(id=id)
+    order = db.session.scalar(stmt)
+    if order:
+        db.session.delete(order)
+        db.session.commit()
+        return {'message': f'Order {id} deleted'}
+    else:
+        return {'error': f'Order not found with id {id}'}, 404

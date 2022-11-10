@@ -14,7 +14,7 @@ class Order(db.Model):
     status = db.Column(db.String, default=VALID_STATUSES[0])
     # total_price = db.Column(db.Float)
     user = db.relationship('User', back_populates='orders')
-    order_items = db.relationship('OrderItem', back_populates='order')
+    order_items = db.relationship('OrderItem', back_populates='order', cascade='all, delete')
     
     # Calculates the total price of the order by multiplying the quantity of each order item by each item's price
     @hybrid_property
