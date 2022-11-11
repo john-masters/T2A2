@@ -1,4 +1,7 @@
+import os
 from datetime import date
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
@@ -82,6 +85,26 @@ def create_order():
     )
     db.session.add(order_items)
     db.session.commit()
+
+    # Sends an email to the user with the details of their order
+    message = Mail(
+        from_email='12849@coderacademy.edu.au',
+        to_emails='mastersjohnr@gmail.com',
+        subject=f'Your order #{order.id} has been received',
+        html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
+        Your order is currently {order.status} and we will update you when this changes.
+        <br></br><br></br>Your order is:<br></br>{order_items.quantity} * {order_items.food.name}
+        <br></br>And your total is:<br></br>${order.total_price}<br></br><br></br>
+        From the Pizzeria Team!''')
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as err:
+        print(str(err))
+
     return OrderSchema().dump(order), 201
 
 # Adds an order item to an existing order
@@ -145,3 +168,4 @@ def delete_order_item(id, item_id):
         return {'message': f'Order item {item_id} deleted from order {id}'}
     else:
         return {'error': f'Order item {item_id} not found in order {id}'}, 404
+
