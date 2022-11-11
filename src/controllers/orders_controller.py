@@ -1,31 +1,14 @@
 import os
 from datetime import date
 from flask import Blueprint, request
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from models.order import Order, OrderSchema
-from models.order_item import OrderItem, OrderItemSchema
+from models.order_item import OrderItem
 from models.user import User
 from controllers.auth_controller import check_admin, check_owner
 
 order_bp = Blueprint('order', __name__, url_prefix='/orders')
-
-# message = Mail(
-#     from_email='12849@coderacademy.edu.au',
-#     to_emails='mastersjohnr@gmail.com',
-#     subject='Sending with Twilio SendGrid is Fun',
-#     html_content='<strong>and easy to do anywhere, even with Python</strong>'
-#     )
-# try:
-#     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-#     response = sg.send(message)
-#     print(response.status_code)
-#     print(response.body)
-#     print(response.headers)
-# except Exception as err:
-#     print(err)
 
 # Get all orders
 @order_bp.route('/', methods=['GET'])
@@ -100,6 +83,27 @@ def create_order():
     )
     db.session.add(order_items)
     db.session.commit()
+    # print(order.id)
+    # print(order.user.email)
+    # print(order_items.food.name)
+    # print(order_items.quantity)
+# Send email to customer with order details
+    # message = Mail(
+    #     from_email='12849@coderacademy.edu.au',
+    #     to_emails='mastersjohnr@gmail.com',
+    #     # to_emails=order.user.email,
+    #     subject='Order Confirmation',
+    #     html_content='<strong>and easy to do anywhere, even with Python</strong>'
+    #     # html_content='Thank you for your order. Your order number is ' + str(order.id) + '. You have ordered ' + str(order_items.quantity) + ' ' + order_items.food.name + '.'
+    #     )
+    # try:
+    #     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+    #     response = sg.send(message)
+    #     print(response.status_code)
+    #     print(response.body)
+    #     print(response.headers)
+    # except Exception as err:
+    #     print(err)
     return OrderSchema().dump(order), 201
 
 # Adds an order item to an existing order

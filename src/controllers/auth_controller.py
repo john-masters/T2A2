@@ -43,7 +43,7 @@ def get_users():
 
 # Delete users (admin only)
 @auth_bp.route('/<id>/', methods=['DELETE'])
-@jwt_required()
+@jwt_required() 
 def delete_user(id):
     check_admin()
     stmt = db.select(User).filter_by(id=id)

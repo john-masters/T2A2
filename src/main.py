@@ -19,6 +19,10 @@ def create_app():
     def method_not_allowed(err):
         return {'error': str(err)}, 405
 
+    @app.errorhandler(404)
+    def not_found(err):
+        return {'error': str(err)}, 404
+
     @app.errorhandler(ValidationError)
     def validation_error(err):
         return {'error': str(err)}, 400
