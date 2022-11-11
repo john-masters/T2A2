@@ -86,6 +86,12 @@ def create_order():
     db.session.add(order_items)
     db.session.commit()
 
+    # Loops through the order items and generates a string with all of the order details to be added to the email
+    order_details = '''Order:<br></br>'''
+    for order_item in order.order_items:
+        order_loop = f'{order_item.quantity} * {order_item.food.name} (${order_item.food.price})<br></br>Subtotal: ${order_item.subtotal}<br></br><br></br>'
+        order_details += order_loop
+
     # Sends an email to the user with the details of their order
     message = Mail(
         from_email='12849@coderacademy.edu.au',
@@ -93,8 +99,7 @@ def create_order():
         subject=f'Your order #{order.id} has been received',
         html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
         Your order is currently {order.status} and we will update you when this changes.
-        <br></br><br></br>Your order is:<br></br>{order_items.quantity} * {order_items.food.name}
-        <br></br>And your total is:<br></br>${order.total_price}<br></br><br></br>
+        <br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
         From the Pizzeria Team!''')
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -121,6 +126,31 @@ def add_to_order(id):
         )
         db.session.add(order_items)
         db.session.commit()
+
+        # Loops through the order items and generates a string with all of the order details to be added to the email
+        order_details = '''Order:<br></br>'''
+        for order_item in order.order_items:
+            order_loop = f'{order_item.quantity} * {order_item.food.name} (${order_item.food.price})<br></br>Subtotal: ${order_item.subtotal}<br></br><br></br>'
+            order_details += order_loop
+
+        # Sends an email to the user with the updated details of their order
+        message = Mail(
+            from_email='12849@coderacademy.edu.au',
+            to_emails='mastersjohnr@gmail.com',
+            subject=f'Your order #{order.id} has been updated',
+            html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
+            Your order is currently {order.status} and we will update you when this changes.
+            <br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
+            From the Pizzeria Team!''')
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as err:
+            print(str(err))
+
         return OrderSchema().dump(order), 201
     else:
         return {'error': f'Order not found with id {id}'}, 404
@@ -137,6 +167,31 @@ def update_order_status(id):
     if order:
         order.status = request.json['status']
         db.session.commit()
+
+        # Loops through the order items and generates a string with all of the order details to be added to the email
+        order_details = '''Order:<br></br>'''
+        for order_item in order.order_items:
+            order_loop = f'{order_item.quantity} * {order_item.food.name} (${order_item.food.price})<br></br>Subtotal: ${order_item.subtotal}<br></br><br></br>'
+            order_details += order_loop
+
+        # Sends an email to the user with the updated details of their order
+        message = Mail(
+            from_email='12849@coderacademy.edu.au',
+            to_emails='mastersjohnr@gmail.com',
+            subject=f'Your order #{order.id} has been updated',
+            html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
+            Your order is currently {order.status} and we will update you when this changes.
+            <br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
+            From the Pizzeria Team!''')
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as err:
+            print(str(err))
+
         return OrderSchema().dump(order)
     else:
         return {'error': f'Order not found with id {id}'}, 404
