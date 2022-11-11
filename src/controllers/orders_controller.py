@@ -180,8 +180,7 @@ def update_order_status(id):
             to_emails='mastersjohnr@gmail.com',
             subject=f'Your order #{order.id} has been updated',
             html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
-            Your order is currently {order.status} and we will update you when this changes.
-            <br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
+            Your order is now {order.status}.<br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
             From the Pizzeria Team!''')
         try:
             sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
