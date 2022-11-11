@@ -7,7 +7,6 @@ from controllers.orders_controller import order_bp
 from controllers.food_controller import food_bp
 from marshmallow.exceptions import ValidationError
 
-
 def create_app():
     app = Flask(__name__)
 
