@@ -8,10 +8,10 @@ food_bp = Blueprint('food', __name__, url_prefix='/food')
 
 # Get the list of all the food items where on_menu = True
 @food_bp.route('/', methods=['GET'])
-def menu():
+def get_menu():
     stmt = db.select(Food).filter_by(on_menu=True)
     foods = db.session.scalars(stmt)
-    return FoodSchema(many=True).dump(foods)
+    return FoodSchema(many=True, exclude=['on_menu']).dump(foods)
 
 # Update food items
 @food_bp.route('/<int:food_id>/', methods=['PUT', 'PATCH'])

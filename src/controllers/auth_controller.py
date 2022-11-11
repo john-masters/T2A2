@@ -39,9 +39,21 @@ def get_users():
     check_admin()
     stmt = db.select(User)
     users = db.session.scalars(stmt)
-    return UserSchema(many=True).dump(users)
+    return UserSchema(many=True, exclude=['orders', 'password']).dump(users)
 
 # Delete users (admin only)
+@auth_bp.route('/<id>/', methods=['DELETE'])
+@jwt_required()
+def delete_user(id):
+    check_admin()
+    stmt = db.select(User).filter_by(id=id)
+    user = db.session.scalar(stmt)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return {'message': f'User {id} deleted'}, 200
+    else:
+        return {'error': 'User not found'}, 404
 
 def check_admin():
     user_id = get_jwt_identity()
