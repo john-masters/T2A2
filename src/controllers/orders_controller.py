@@ -95,7 +95,7 @@ def create_order():
     # Sends an email to the user with the details of their order
     message = Mail(
         from_email='12849@coderacademy.edu.au',
-        to_emails='mastersjohnr@gmail.com',
+        to_emails=f'{order.user.email}',
         subject=f'Your order #{order.id} has been received',
         html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
         Your order is currently {order.status} and we will update you when this changes.
@@ -136,7 +136,7 @@ def add_to_order(id):
         # Sends an email to the user with the updated details of their order
         message = Mail(
             from_email='12849@coderacademy.edu.au',
-            to_emails='mastersjohnr@gmail.com',
+            to_emails=f'{order.user.email}',
             subject=f'Your order #{order.id} has been updated',
             html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
             Your order is currently {order.status} and we will update you when this changes.
@@ -177,7 +177,7 @@ def update_order_status(id):
         # Sends an email to the user with the updated details of their order
         message = Mail(
             from_email='12849@coderacademy.edu.au',
-            to_emails='mastersjohnr@gmail.com',
+            to_emails=f'{order.user.email}',
             subject=f'Your order #{order.id} has been updated',
             html_content=f'''Hi, {order.user.name},<br></br><br></br>Thanks for your order!
             Your order is now {order.status}.<br></br><br></br>{order_details}Total:<br></br>${order.total_price}<br></br><br></br>
@@ -222,4 +222,3 @@ def delete_order_item(id, item_id):
         return {'message': f'Order item {item_id} deleted from order {id}'}
     else:
         return {'error': f'Order item {item_id} not found in order {id}'}, 404
-

@@ -12,11 +12,11 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     date = db.Column(db.DateTime)
     status = db.Column(db.String, default=VALID_STATUSES[0])
-    # total_price = db.Column(db.Float)
+
     user = db.relationship('User', back_populates='orders')
     order_items = db.relationship('OrderItem', back_populates='order', cascade='all, delete')
     
-    # Calculates the total price of the order by multiplying the quantity of each order item by each item's price
+    # Creates a column that calculates the total price of the order
     @hybrid_property
     def total_price(self):
         total = 0

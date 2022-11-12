@@ -5,9 +5,10 @@ from init import db, bcrypt
 from models.user import User, UserSchema
 from models.order import Order
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-    
+
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# Route to register a new user
 @auth_bp.route('/signup/', methods=['POST'])
 def auth_register():
     try:
@@ -18,10 +19,11 @@ def auth_register():
         )
         db.session.add(user)
         db.session.commit()
-        return UserSchema(exclude=['password', 'is_admin']).dump(user), 201
+        return UserSchema(exclude=['password', 'is_admin', 'orders']).dump(user), 201
     except IntegrityError:
         return {'error': 'Email address already exists'}, 409
 
+# Route to login a user
 @auth_bp.route('/signin/', methods=['POST'])
 def auth_login():
     stmt = db.select(User).filter_by(email=request.json['email'])
@@ -55,6 +57,7 @@ def delete_user(id):
     else:
         return {'error': 'User not found'}, 404
 
+# Function to check if the user is an admin
 def check_admin():
     user_id = get_jwt_identity()
     stmt = db.select(User).filter_by(id=user_id)

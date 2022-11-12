@@ -24,10 +24,12 @@ def update_food(food_id):
         food.name = request.json.get('name') or food.name
         food.price = request.json.get('price') or food.price
         food.ingredients = request.json.get('ingredients') or food.ingredients
+        # If is_veg is not provided, then it will be set to what it is already
         if request.json.get('is_veg') is not None:
             food.is_veg = request.json.get('is_veg')
         else:
             food.is_veg = food.is_veg
+        # If on_menu is not provided, then it will be set to what it is already
         if request.json.get('on_menu') is not None:
             food.on_menu = request.json.get('on_menu')
         else:

@@ -8,19 +8,21 @@ from models.user import User
 
 db_bp = Blueprint('db', __name__)
 
+# Terminal command to create the database
 @db_bp.cli.command('create')
 def create_db():
     db.create_all()
     print('Database created!')
 
+# Terminal command to drop the database
 @db_bp.cli.command('drop')
 def drop_db():
     db.drop_all()
     print('Database dropped!')
 
+# Terminal command to seed the database with test data
 @db_bp.cli.command('seed')
 def seed_db():
-    # seed the database
     users = [
         User(
             name = 'Admin User',
@@ -65,11 +67,11 @@ def seed_db():
     db.session.commit()
     orders = [
         Order(
-            user_id = 1,
+            user_id = 2,
             date = date.today()
         ),
         Order(
-            user_id = 2,
+            user_id = 3,
             date = date.today()
         )
     ]
