@@ -46,59 +46,117 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 ## R5 - Document all endpoints for your API
 
-* **Login for customers and restaurant owner**
-  * HTTP request verb: POST
-  * Required data where applicable: The email address and password in JSON format
-  * Expected response data: JWT Token in JSON format
-  * Authentication methods where applicable: username and hashed password is checked against db
+### Signup
 
-* **Get menu**
-  * HTTP request verb: GET
-  * Required data where applicable: n/a
-  * Expected response data: List of all foods on menu
-  * Authentication methods where applicable: n/a
+- HTTP request verb: POST
+- Required data where applicable: Name, email address and password
+- Expected response data: UserSchema
+- Authentication methods where applicable: n/a
 
-* **Post orders**
-  * HTTP request verb: POST
-  * Required data where applicable: All of the food ids for each item
-  * Expected response data: Order confirmation and order id
-  * Authentication methods where applicable: JWT Token
+### Signin
 
-* **Get orders for customers (Can view own orders)**
-  * HTTP request verb: GET
-  * Required data where applicable: n/a
-  * Expected response data: Order ID, order items/quantity and total price
-  * Authentication methods where applicable: JWT Token
+- HTTP request verb: POST
+- Required data where applicable: The email address and password in JSON format
+- Expected response data: JWT Token in JSON format
+- Authentication methods where applicable: username and hashed password is checked against db
 
-* **Get orders for restaurant owner**
-  * HTTP request verb: GET
-  * Required data where applicable: n/a
-  * Expected response data: Order ID, order items/quantity and total price for all orders not marked as comleted
-  * Authentication methods where applicable: Admin JWT Token
+### User list
 
-* **Update menu for restaurant owner**
-  * HTTP request verb: POST (or PUT)
-  * Required data where applicable: All of the food id's on the menu
-  * Expected response data: Confirmation message and the new menu in JSON format
-  * Authentication methods where applicable: Admin JWT Token
+- HTTP request verb: GET
+- Required data where applicable: n/a
+- Expected response data: List of UserSchemas
+- Authentication methods where applicable: JWT Token and admin role
 
-* **Update orders for restaurant owner**
-  * HTTP request verb: PUT
-  * Required data where applicable: Associated order ID and desired order status
-  * Expected response data: Confirmation message and the order in JSON format showing the status as whatever it's updated to
-  * Authentication methods where applicable: Admin JWT Token
+### Delete users
 
-* **Delete orders for restaurant owner**
-  * HTTP request verb: DELETE
-  * Required data where applicable: Associated order ID
-  * Expected response data: Confirmation message the order is deleted
-  * Authentication methods where applicable: Admin JWT Token
+- HTTP request verb: DELETE
+- Required data where applicable: user id
+- Expected response data: Message confirming user has been deleted
+- Authentication methods where applicable: JWT Token and admin role
 
-* **Get amount generated for past orders**
-  * HTTP request verb: GET
-  * Required data where applicable: n/a
-  * Expected response data: List of all orders and their total price
-  * Authentication methods where applicable: Admin JWT Token
+### Get menu
+
+- HTTP request verb: GET
+- Required data where applicable: n/a
+- Expected response data: List of all food items on menu
+- Authentication methods where applicable: n/a
+
+### Update food items
+
+- HTTP request verb: PUT or PATCH
+- Required data where applicable: Food item id in URL, and data to be updated in JSON format
+- Expected response data: Confirmation message and updated food schema
+- Authentication methods where applicable: Admin JWT Token and admin role
+
+### Add food items
+
+- HTTP request verb: POST
+- Required data where applicable: Food name, price, ingredients and is_veg in JSON format
+- Expected response data: Confirmation message and new food schema
+- Authentication methods where applicable: Admin JWT Token and admin role
+
+### Post orders
+
+- HTTP request verb: POST
+- Required data where applicable: All of the food ids for each item
+- Expected response data: Order confirmation and order id
+- Authentication methods where applicable: JWT Token
+
+### Get orders
+
+- HTTP request verb: GET
+- Required data where applicable: n/a
+- Expected response data: If user is admin, list of all order schemas. If user is customer, list of their order schemas
+- Authentication methods where applicable: JWT Token
+
+### Get current orders
+
+- HTTP request verb: GET
+- Required data where applicable: n/a
+- Expected response data: If user is admin, list of all order schemas except orders with the status of 'Completed' or 'Refunded'. If user is customer, list of their order schemas except orders with the status of 'Completed' or 'Refunded'
+- Authentication methods where applicable: JWT Token
+
+### Get past orders
+
+- HTTP request verb: GET
+- Required data where applicable: n/a
+- Expected response data: If user is admin, list of all order schemas with the status of 'Completed' or 'Refunded'. If user is customer, list of their order schemas with the status of 'Completed' or 'Refunded'
+- Authentication methods where applicable: JWT Token
+
+### Create orders
+
+- HTTP request verb: POST
+- Required data where applicable: Food id and quantity for first item
+- Expected response data: Confirmation message and order schema (Email is sent to customer with order details as well)
+- Authentication methods where applicable: JWT Token
+
+### Add items to order
+
+- HTTP request verb: PUT or PATCH
+- Required data where applicable: Order id in URL, food id and quantity in JSON format
+- Expected response data: Confirmation message and updated order schema (Email is sent to customer with order details as well)
+- Authentication methods where applicable: JWT Token
+
+### Update order status
+
+- HTTP request verb: PUT or PATCH
+- Required data where applicable: Associated order ID in URL and desired order status in JSON format
+- Expected response data: Updated order schema (Email is sent to customer with updated order details as well)
+- Authentication methods where applicable: Admin JWT Token and admin role
+
+### Delete orders for restaurant owner
+
+- HTTP request verb: DELETE
+- Required data where applicable: Associated order ID in URL
+- Expected response data: Confirmation message the order is deleted
+- Authentication methods where applicable: Admin JWT Token and admin role
+
+### Delete order items for customer
+
+- HTTP request verb: DELETE
+- Required data where applicable: Associated order ID followed by the order item ID in URL
+- Expected response data: Confirmation message the order item is deleted
+- Authentication methods where applicable: JWT Token and customer role (only the customer who placed the order can delete items from it)
 
 ---
 
@@ -130,7 +188,7 @@ When customers make orders, they will receive an order confirmation email via th
 
 ---
 
-## Instructions to set up database
+### Postgresql instructions to set up database
 
 1. Create database
 

@@ -156,7 +156,7 @@ def add_to_order(id):
         return {'error': f'Order not found with id {id}'}, 404
 
 # Updates the status of an order
-@order_bp.route('/status/<int:id>/', methods=['PATCH'])
+@order_bp.route('/status/<int:id>/', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_order_status(id):
     check_admin()
