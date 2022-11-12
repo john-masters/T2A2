@@ -168,41 +168,76 @@ The key functionalities of an ORM, which in our case is SQLAlchemy, are to have 
 
 ## R7 - Detail any third party services that your app will use
 
-When customers make orders, they will receive an order confirmation email via the SendGrid API. The restaurant owner will also receive an email when a new order is made.
+When customers make orders, they will receive an order confirmation email via the SendGrid API. The email will contain the order details, including the order id, the items ordered, the quantity of each item, the subtotal for each item, the total price and the order status.
+
+When customers update their orders, they will receive an order confirmation email via the SendGrid API. The email will contain the updated order details, including the order id, the items ordered, the quantity of each item, the subtotal for each item, the total price and the order status.
+
+When admins update the status of an order, the customer will receive an order confirmation email via the SendGrid API. The email will contain the updated order details, including the order id, the items ordered, the quantity of each item, the subtotal for each item, the total price and the new order status.
 
 ---
 
 ## R8 - Describe your projects models in terms of the relationships they have with each other
-<!-- Discuss relationships in regards to SQLAlchemy models -->
+
+### Users
+
+- The user model has id, name, email, password, is_admin and orders columns.
+- The orders column is a relationship with the orders table, which, when queried, will return all of the orders associated with that user.
+
+### Orders
+
+- The order model has id, user_id, status, total_price and order_items columns.
+- The user_id column is a foreign key that references the id column in the users table.
+- The order_items column is a relationship with the order_items table, which, when queried, will return all of the order items associated with that order.
+
+### Order Items
+
+- The order item model has id, order_id, food_id, quantity and subtotal columns.
+- The order_id column is a foreign key that references the id column in the orders table.
+- The food_id column is a foreign key that references the id column in the food table.
+
+### Food
+
+- The food model has id, name, price, ingredients, is_veg and on_menu columns.
 
 ---
 
 ## R9 - Discuss the database relations to be implemented in your application
-<!-- Discuss relationships at the db level -->
+
+The first relationship is the User model which has a one-to-many relationship with the Order model. This means that a user can have many orders, but an order can only have one user. The order model has a user_id foreign key which links it to the user model.
+
+The second relationship is the Order model which has a one-to-many relationship with the OrderItem model. This means that an order can have many order items, but an order item can only have one order. The order item model has an order_id foreign key which links it to the order model.
+
+The third relationship is the Food model which has a one-to-many relationship with the OrderItem model. This means that a food can be associated with many order items, but an order item can only have one food. The order item model has a food_id foreign key which links it to the food model.
 
 ---
 
 ## R10 - Describe the way tasks are allocated and tracked in your project
 
-[Trello board](https://trello.com/invite/b/LsTz9le2/ATTIcb57bcfce81384249b7ec8371ced357b990C3768/t2a2-kanban)
+To facilitate the tracking of tasks, I used Trello to create a Kanban board with columns for To Do, Doing and Done. In the beginning, I created a list of tasks that needed to be completed, and then I moved them to the To Do column.
+
+The tasks were ordered in the To Do column by priority. The tasks that needed to be completed first were at the top of the list, and the tasks that could be completed later were at the bottom of the list.
+
+As I started working on a task, I moved it to the Doing column. Once I completed a task, I moved it to the Done column. This allowed me to keep track of what I had completed and what I still needed to do.
+
+See the Kanban board [here](https://trello.com/invite/b/LsTz9le2/ATTIcb57bcfce81384249b7ec8371ced357b990C3768/t2a2-kanban).
 
 ---
 
 ### Postgresql instructions to set up database
 
-1. Create database
+- Create database
 
 ```sql
 CREATE DATABASE pizzeria;
 ```
 
-2. Create user
+- Create user
 
 ```sql
 CREATE USER pizza WITH PASSWORD 'cheese';
 ```
 
-3. Grant privileges
+- Grant privileges
 
 ```sql
 GRANT ALL PRIVILEGES ON DATABASE pizzeria TO pizza;

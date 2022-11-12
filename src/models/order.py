@@ -15,7 +15,7 @@ class Order(db.Model):
 
     user = db.relationship('User', back_populates='orders')
     order_items = db.relationship('OrderItem', back_populates='order', cascade='all, delete')
-    
+
     # Creates a column that calculates the total price of the order
     @hybrid_property
     def total_price(self):

@@ -8,7 +8,7 @@ class Food(db.Model):
     price = db.Column(db.Float)
     is_veg = db.Column(db.Boolean)
     on_menu = db.Column(db.Boolean, default=True)
-    
+
     order_items = db.relationship('OrderItem', back_populates='food')
 
 class FoodSchema(ma.Schema):
